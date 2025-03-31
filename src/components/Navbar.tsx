@@ -1,12 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Wallet } from 'lucide-react';
 import { Button } from './ui/button';
- 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -15,20 +12,17 @@ const Navbar = () => {
         setIsScrolled(false);
       }
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  
-  return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}>
+  return <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <span className="font-bold text-xl md:text-2xl text-investment-dark">InvestCore</span>
+            <span className="font-bold text-xl md:text-2xl text-slate-50">VAIOT</span>
           </div>
           
           {/* Desktop Navigation */}
@@ -60,24 +54,16 @@ const Navbar = () => {
           
           {/* Mobile Menu Button */}
           <div className="flex md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-investment-blue focus:outline-none"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-investment-blue focus:outline-none">
               <span className="sr-only">Open main menu</span>
-              {isMenuOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
-              )}
+              {isMenuOpen ? <X className="block h-6 w-6" aria-hidden="true" /> : <Menu className="block h-6 w-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
       </div>
       
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute w-full bg-white shadow-lg">
+      {isMenuOpen && <div className="md:hidden absolute w-full bg-white shadow-lg">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a href="#features" className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-gray-100">Features</a>
             <a href="#how-it-works" className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-gray-100">How It Works</a>
@@ -90,10 +76,7 @@ const Navbar = () => {
               </Button>
             </div>
           </div>
-        </div>
-      )}
-    </nav>
-  );
+        </div>}
+    </nav>;
 };
-
 export default Navbar;
