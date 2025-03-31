@@ -5,9 +5,19 @@ import { Button } from './ui/button';
 
 const Hero = () => {
   const scrollToWallet = () => {
+    // Target the WalletConnect section specifically instead of just the how-it-works section
     const walletSection = document.getElementById('how-it-works');
     if (walletSection) {
       walletSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Find the first step which is the wallet connection step
+      setTimeout(() => {
+        // This ensures we focus the wallet connection part specifically
+        const walletConnectSection = document.querySelector('.bg-card');
+        if (walletConnectSection) {
+          walletConnectSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500); // Small delay to ensure the main section is in view first
     }
   };
 
