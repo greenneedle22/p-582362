@@ -22,7 +22,7 @@ const Features = () => {
     {
       icon: <Database className="h-8 w-8 text-investment-accent" />,
       title: 'Staking Opportunities',
-      description: 'Maximize your returns with flexible staking options once you've acquired tokens.'
+      description: "Maximize your returns with flexible staking options once you've acquired tokens."
     },
     {
       icon: <Wallet className="h-8 w-8 text-investment-accent" />,
