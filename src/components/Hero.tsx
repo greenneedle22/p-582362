@@ -1,7 +1,16 @@
+
 import React from 'react';
 import { ArrowRight, ArrowDownCircle } from 'lucide-react';
 import { Button } from './ui/button';
+
 const Hero = () => {
+  const scrollToWallet = () => {
+    const walletSection = document.getElementById('how-it-works');
+    if (walletSection) {
+      walletSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return <div className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background with overlay */}
       <div className="absolute inset-0 bg-cover bg-center z-0" style={{
@@ -25,7 +34,10 @@ const Hero = () => {
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in" style={{
             animationDelay: '0.4s'
           }}>
-              <Button className="btn-accent flex items-center space-x-2 transform hover:scale-105 transition-all">
+              <Button 
+                className="btn-accent flex items-center space-x-2 transform hover:scale-105 transition-all"
+                onClick={scrollToWallet}
+              >
                 <span>Start Investing Now</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -63,7 +75,7 @@ const Hero = () => {
                     </div>
                   </div>
                   
-                  <Button className="w-full bg-investment-blue text-white hover:bg-blue-800">
+                  <Button className="w-full bg-investment-blue text-white hover:bg-blue-800" onClick={scrollToWallet}>
                     Connect Wallet to Start
                   </Button>
                 </div>

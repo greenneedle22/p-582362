@@ -1,12 +1,64 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Wallet, RefreshCw, SendHorizonal, ArrowRight } from 'lucide-react';
+import { Wallet, RefreshCw, SendHorizonal, ArrowRight, AlertCircle } from 'lucide-react';
+import useSWR from 'swr';
 
 const HowItWorks = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const [ethAmount, setEthAmount] = useState('1');
   const [eurAmount, setEurAmount] = useState('1000');
-  const vaiotTokens = (parseFloat(eurAmount) / 0.427).toFixed(2);
+  const [isConnected, setIsConnected] = useState(false);
+  const [selectedWallet, setSelectedWallet] = useState('');
+  const [loading, setLoading] = useState(false);
+  
+  // Fetch real-time prices with auto-refresh every 10 seconds
+  const fetcher = (url: string) => fetch(url).then(res => res.json());
+  const { data: prices, error } = useSWR(
+    'https://api.coingecko.com/api/v3/simple/price?ids=ethereum,vaiot&vs_currencies=usd,eur',
+    fetcher,
+    { refreshInterval: 10000 }
+  );
+
+  // Calculate VAIOT tokens based on ETH input
+  const calculateTokens = () => {
+    if (!prices || !ethAmount) return '0';
+    const ethValue = parseFloat(ethAmount) * prices.ethereum.eur;
+    return (ethValue / prices.vaiot.eur).toFixed(2);
+  };
+
+  // Calculate VAIOT tokens based on EUR input
+  const calculateVaiotFromEur = () => {
+    if (!prices || !eurAmount) return '0';
+    return (parseFloat(eurAmount) / prices.vaiot.eur).toFixed(2);
+  };
+
+  // Calculate ETH equivalent of EUR
+  const calculateEthFromEur = () => {
+    if (!prices || !eurAmount) return '0';
+    return (parseFloat(eurAmount) / prices.ethereum.eur).toFixed(6);
+  };
+
+  // Update ETH amount when EUR changes
+  useEffect(() => {
+    if (prices) {
+      setEthAmount(calculateEthFromEur());
+    }
+  }, [eurAmount, prices]);
+
+  const connectWallet = (walletName: string) => {
+    setLoading(true);
+    
+    // Simulate wallet connection
+    setTimeout(() => {
+      setIsConnected(true);
+      setSelectedWallet(walletName);
+      setLoading(false);
+      setActiveStep(2);
+    }, 1500);
+  };
+
+  const vaiotTokens = calculateVaiotFromEur();
   
   const steps = [
     {
@@ -92,28 +144,51 @@ const HowItWorks = () => {
             <div className="flex flex-col items-center py-6">
               <div className="mb-8 w-full max-w-md">
                 <div className="text-center mb-6">
+                  <h3 className="text-2xl font-semibold mb-3">Connect Your Wallet</h3>
                   <p className="text-gray-600">Connect your wallet to view real-time data and proceed with your investment</p>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
-                  <Button className="flex items-center justify-center space-x-2 py-6 bg-gray-100 hover:bg-gray-200 text-investment-dark border border-gray-200">
+                  <Button 
+                    className={`flex items-center justify-center space-x-2 py-6 ${loading && selectedWallet === 'MetaMask' ? 'bg-gray-200' : 'bg-gray-100 hover:bg-gray-200'} text-investment-dark border border-gray-200`}
+                    onClick={() => connectWallet('MetaMask')}
+                    disabled={loading}
+                  >
                     <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" className="h-8 w-8" />
-                    <span>MetaMask</span>
+                    <span>{loading && selectedWallet === 'MetaMask' ? 'Connecting...' : 'MetaMask'}</span>
                   </Button>
-                  <Button className="flex items-center justify-center space-x-2 py-6 bg-gray-100 hover:bg-gray-200 text-investment-dark border border-gray-200">
+                  <Button 
+                    className={`flex items-center justify-center space-x-2 py-6 ${loading && selectedWallet === 'Trust Wallet' ? 'bg-gray-200' : 'bg-gray-100 hover:bg-gray-200'} text-investment-dark border border-gray-200`}
+                    onClick={() => connectWallet('Trust Wallet')}
+                    disabled={loading}
+                  >
                     <img src="https://trustwallet.com/assets/images/media/assets/trust_platform.svg" alt="Trust Wallet" className="h-8 w-8" />
-                    <span>Trust Wallet</span>
+                    <span>{loading && selectedWallet === 'Trust Wallet' ? 'Connecting...' : 'Trust Wallet'}</span>
                   </Button>
-                  <Button className="flex items-center justify-center space-x-2 py-6 bg-gray-100 hover:bg-gray-200 text-investment-dark border border-gray-200">
+                  <Button 
+                    className={`flex items-center justify-center space-x-2 py-6 ${loading && selectedWallet === 'Coinbase' ? 'bg-gray-200' : 'bg-gray-100 hover:bg-gray-200'} text-investment-dark border border-gray-200`}
+                    onClick={() => connectWallet('Coinbase')}
+                    disabled={loading}
+                  >
                     <img src="https://www.coinbase.com/assets/press/coinbase-mark-white-9c15b8c484634bc44b24cdc4744e42a45568357f5e6bf667805a033d5fd6664e.png" alt="Coinbase" className="h-8 w-8" />
-                    <span>Coinbase</span>
+                    <span>{loading && selectedWallet === 'Coinbase' ? 'Connecting...' : 'Coinbase'}</span>
                   </Button>
-                  <Button className="flex items-center justify-center space-x-2 py-6 bg-gray-100 hover:bg-gray-200 text-investment-dark border border-gray-200">
+                  <Button 
+                    className="flex items-center justify-center space-x-2 py-6 bg-gray-100 hover:bg-gray-200 text-investment-dark border border-gray-200"
+                    disabled={loading}
+                  >
                     <span>More Options</span>
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
+              
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-md flex items-start space-x-2 mb-4">
+                  <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm">Unable to fetch current prices. Please try again later.</p>
+                </div>
+              )}
               
               <Button 
                 className="btn-primary mt-6"
@@ -128,6 +203,33 @@ const HowItWorks = () => {
             <div className="flex flex-col items-center py-6">
               <div className="mb-8 w-full max-w-lg">
                 <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
+                  {isConnected && (
+                    <div className="mb-4 flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span className="text-sm font-medium text-gray-700">Connected with {selectedWallet}</span>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => setIsConnected(false)}>Disconnect</Button>
+                    </div>
+                  )}
+                  
+                  {prices ? (
+                    <div className="mb-4">
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-gray-500">Current Rates:</span>
+                        <span className="text-gray-700">1 ETH = €{prices.ethereum.eur.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500">VAIOT Token:</span>
+                        <span className="text-gray-700">€{prices.vaiot.eur.toFixed(4)}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center my-2">
+                      <RefreshCw className="text-gray-400 animate-spin" />
+                    </div>
+                  )}
+                  
                   <div className="mb-6">
                     <label htmlFor="eurAmount" className="block text-sm font-medium text-gray-700 mb-1">Amount in EUR</label>
                     <div className="mt-1 relative rounded-md shadow-sm">
@@ -147,7 +249,7 @@ const HowItWorks = () => {
                   </div>
                   
                   <div className="flex justify-center my-4">
-                    <RefreshCw className="text-gray-400 animate-pulse-subtle" />
+                    <RefreshCw className={`text-gray-400 ${!prices ? 'animate-spin' : 'animate-pulse-subtle'}`} />
                   </div>
                   
                   <div>
@@ -170,11 +272,11 @@ const HowItWorks = () => {
                   <div className="mt-6">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-500">Exchange Rate</span>
-                      <span className="text-gray-700">1 VAIOT = €0.427</span>
+                      <span className="text-gray-700">1 VAIOT = {prices ? `€${prices.vaiot.eur.toFixed(4)}` : 'Loading...'}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Last Updated</span>
-                      <span className="text-gray-700">Just now</span>
+                      <span className="text-gray-700">{prices ? 'Just now' : 'Loading...'}</span>
                     </div>
                   </div>
                 </div>
@@ -190,6 +292,7 @@ const HowItWorks = () => {
                 <Button 
                   className="btn-primary"
                   onClick={() => setActiveStep(3)}
+                  disabled={!prices}
                 >
                   Proceed to Transaction
                 </Button>
@@ -225,11 +328,13 @@ const HowItWorks = () => {
                         <input
                           type="text"
                           className="flex-grow focus:ring-investment-blue focus:border-investment-blue block w-full sm:text-sm border-gray-300 rounded-md py-2"
-                          value="0.3084 ETH"
+                          value={`${ethAmount} ETH`}
                           readOnly
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Based on current ETH price of $3,245.78</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Based on current ETH price of {prices ? `$${prices.ethereum.usd.toFixed(2)}` : 'loading...'}
+                      </p>
                     </div>
                   </div>
                   
