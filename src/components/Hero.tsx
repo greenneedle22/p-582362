@@ -1,32 +1,30 @@
-
 import React from 'react';
 import { ArrowRight, ArrowDownCircle } from 'lucide-react';
 import { Button } from './ui/button';
-
 const Hero = () => {
-  return (
-    <div className="relative min-h-screen flex items-center overflow-hidden">
+  return <div className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background with overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center z-0" 
-        style={{ 
-          backgroundImage: 'url(https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2832&auto=format&fit=crop)',
-          backgroundBlendMode: 'overlay' 
-        }}
-      >
+      <div className="absolute inset-0 bg-cover bg-center z-0" style={{
+      backgroundImage: 'url(https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2832&auto=format&fit=crop)',
+      backgroundBlendMode: 'overlay'
+    }}>
         <div className="absolute inset-0 bg-gradient-to-r from-investment-dark/90 to-investment-blue/70"></div>
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 md:pr-12 text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight animate-fade-in">
-              Invest with Confidence in the <span className="text-gradient-gold">Future of Finance</span>
+            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight animate-fade-in lg:text-6xl">
+              Invest with Confidence in the <span className="text-gradient-gold">VAIOT PRIVATE</span>
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-xl mx-auto md:mx-0 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-xl mx-auto md:mx-0 animate-fade-in" style={{
+            animationDelay: '0.2s'
+          }}>
               A professional investment platform designed for modern investors. Secure, transparent, and built for growth.
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in" style={{
+            animationDelay: '0.4s'
+          }}>
               <Button className="btn-accent flex items-center space-x-2 transform hover:scale-105 transition-all">
                 <span>Start Investing Now</span>
                 <ArrowRight className="h-4 w-4" />
@@ -37,7 +35,9 @@ const Hero = () => {
             </div>
           </div>
           
-          <div className="md:w-1/2 mt-12 md:mt-0 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+          <div className="md:w-1/2 mt-12 md:mt-0 animate-fade-in" style={{
+          animationDelay: '0.6s'
+        }}>
             <div className="glass-effect rounded-xl p-6 md:p-8 max-w-md mx-auto">
               <div className="bg-white/90 rounded-lg p-6 shadow-lg">
                 <h3 className="text-xl font-semibold text-investment-dark mb-4">Current Market Overview</h3>
@@ -80,8 +80,6 @@ const Hero = () => {
           <ArrowDownCircle className="h-6 w-6" />
         </a>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Hero;
