@@ -1,26 +1,28 @@
-
 import React from 'react';
 import { ArrowRight, ArrowDownCircle } from 'lucide-react';
 import { Button } from './ui/button';
-
 const Hero = () => {
   const scrollToWallet = () => {
     // Target the WalletConnect section specifically instead of just the how-it-works section
     const walletSection = document.getElementById('how-it-works');
     if (walletSection) {
-      walletSection.scrollIntoView({ behavior: 'smooth' });
-      
+      walletSection.scrollIntoView({
+        behavior: 'smooth'
+      });
+
       // Find the first step which is the wallet connection step
       setTimeout(() => {
         // This ensures we focus the wallet connection part specifically
         const walletConnectSection = document.querySelector('.bg-card');
         if (walletConnectSection) {
-          walletConnectSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          walletConnectSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
         }
       }, 500); // Small delay to ensure the main section is in view first
     }
   };
-
   return <div className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background with overlay */}
       <div className="absolute inset-0 bg-cover bg-center z-0" style={{
@@ -44,10 +46,7 @@ const Hero = () => {
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in" style={{
             animationDelay: '0.4s'
           }}>
-              <Button 
-                className="btn-accent flex items-center space-x-2 transform hover:scale-105 transition-all"
-                onClick={scrollToWallet}
-              >
+              <Button className="btn-accent flex items-center space-x-2 transform hover:scale-105 transition-all" onClick={scrollToWallet}>
                 <span>Start Investing Now</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -97,7 +96,7 @@ const Hero = () => {
       
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-        <a href="#features" className="text-white flex flex-col items-center">
+        <a href="#features" className="text-white flex flex-col items-center my-0 px-0 mx-[-300px]">
           <span className="text-sm mb-2">Scroll to learn more</span>
           <ArrowDownCircle className="h-6 w-6" />
         </a>
