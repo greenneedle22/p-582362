@@ -59,14 +59,14 @@ const Hero = () => {
           <div className="md:w-1/2 mt-12 md:mt-0 animate-fade-in" style={{
           animationDelay: '0.6s'
         }}>
-            <div className="glass-effect rounded-xl p-6 md:p-8 max-w-md mx-auto">
+            <div className="glass-effect rounded-xl p-6 md:p-8 max-w-md mx-auto bg-zinc-50">
               <div className="bg-white/90 rounded-lg p-6 shadow-lg">
                 <h3 className="text-xl font-semibold text-investment-dark mb-4">Current Market Overview</h3>
                 
                 <div className="space-y-4">
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                     <div>
-                      <span className="text-sm text-gray-500">ETH Price</span>
+                      <span className="text-sm text-gray-500 font-extrabold">ETH Price</span>
                       <p className="font-semibold text-investment-dark">$3,245.78</p>
                     </div>
                     <div className="text-investment-green font-medium flex items-center">
@@ -76,7 +76,7 @@ const Hero = () => {
                   
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                     <div>
-                      <span className="text-sm text-gray-500">VAIOT Token</span>
+                      <span className="text-sm text-gray-500 font-bold">VAIOT Token</span>
                       <p className="font-semibold text-investment-dark">$0.427</p>
                     </div>
                     <div className="text-investment-green font-medium flex items-center">
@@ -84,7 +84,7 @@ const Hero = () => {
                     </div>
                   </div>
                   
-                  <Button className="w-full bg-investment-blue text-white hover:bg-blue-800" onClick={scrollToWallet}>
+                  <Button onClick={scrollToWallet} className="w-full text-white bg-slate-900 hover:bg-slate-800">
                     Connect Wallet to Start
                   </Button>
                 </div>
