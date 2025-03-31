@@ -99,11 +99,12 @@ const HowItWorks = () => {
         <div className="p-6">
           {activeStep === 1 && (
             <WalletConnect 
+              currentStep={activeStep}
               loading={loading}
               selectedWallet={selectedWallet}
               connectWallet={connectWallet}
               error={error}
-              onNextStep={() => setActiveStep(2)}
+              onComplete={() => setActiveStep(2)}
             />
           )}
           
