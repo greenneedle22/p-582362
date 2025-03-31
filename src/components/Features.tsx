@@ -29,7 +29,7 @@ const Features = () => {
   return <section id="features" className="container-section bg-gray-50">
       <div className="text-center mb-16">
         <h2 className="heading-lg mb-4 font-extrabold">
-          Why Choose <span className="text-investment-blue">InvestCore</span>
+          Why Choose <span className="text-investment-blue font-extrabold text-6xl">VAIOT</span>
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-center text-lg font-light">
           Our platform combines cutting-edge technology with intuitive design to create a seamless investment experience focused on security and growth.
